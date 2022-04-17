@@ -1,0 +1,105 @@
+<div id="content" class="col-sm-9">
+	<h1 class="page_title title">So Sánh Sản Phẩm</h1>
+	<div class="table-responsive">
+		<th:block th:if="${compare.count != 0}">
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<td colspan="5"><strong>Chi Tiết Sản Phẩm</strong></td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>Tên sp</td>
+					<th:block th:each="item: ${compare.items}">
+						<td><a th:href="@{|/san-pham/${item.nameSearch}|}"><strong>[[${item.name}]]</strong></a></td>
+					</th:block>
+				</tr>
+				<tr>
+					<td>Hình ảnh</td>
+					<th:block th:each="item: ${compare.items}">
+						<td class="text-center"><img
+							th:src="@{|/assets/images/imageProduct/${item.image1}|}"
+							th:alt="${item.name}" title="Casio" class="img-thumbnail" width="100px" height="100px"></td>
+					</th:block>
+				</tr>			
+				<tr>
+					<td>Giá</td>
+					<th:block th:each="item: ${compare.items}">
+						<td><th:block th:if="${item.sales != 0}">
+								<strike>[[${#numbers.formatInteger(item.sales,3,'POINT')}]]₫</strike>
+							</th:block> [[${#numbers.formatInteger(item.price,3,'POINT')}]]₫</td>
+					</th:block>
+				</tr>
+				<tr>
+					<td>NXB</td>
+					<th:block th:each="item: ${listManu}">
+						<td>[[${item.name}]]</td>
+					</th:block>
+				</tr>
+				<tr>
+					<td>Trạng thái</td>
+					<th:block th:each="item: ${compare.items}">
+						<td>[[${item.quality > 0?'Còn hàng':'Hết hàng'}]]</td>
+					</th:block>
+				</tr>
+				<tr>
+					<td>Thể loại</td>
+					<th:block th:each="item: ${listCate}">
+						<td>[[${item.name}]]</td>
+					</th:block>
+				</tr>
+				<tr>
+					<td>Đánh giá</td>
+					<th:block th:each="item: ${rating}">
+						<td class="rating">
+							<th:block th:if="${item.totalStar != 0}">
+								<th:block th:each="i: ${#numbers.sequence(1, item.totalStar)}">
+									<span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i><i
+									class="fa fa-star-o fa-stack-1x"></i></span>
+								</th:block>
+							</th:block>
+							<th:block th:if="${item.totalStar != 5}">
+								<th:block th:each="i: ${#numbers.sequence(1, 5 - item.totalStar)}">
+									<span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i></span>
+								</th:block>
+							</th:block> <br>
+							Dựa trên [[${item.countComment}]] lượt đánh giá.
+						</td>										
+					</th:block>
+				</tr>
+			</tbody>
+
+			<tbody>				
+				<tr id="hideTob">
+					<td><a id="tob" onclick="showTob()">Mục lục</a></td>
+					<th:block th:each="item: ${compare.items}">
+						<td></td>	
+					</th:block>					
+				</tr>
+				<tr id="showTob">
+					<td><a id="tob" onclick="hideTob()">Mục lục</a></td>
+					<th:block th:each="item: ${compare.items}">
+						<td class="text-center"><img id="imgTob"
+							th:src="@{|/assets/images/imageProduct/${item.image2}|}"
+							th:alt="${item.name}" title="Casio" class="img-thumbnail" width="150px" height="150px"></td>
+					</th:block>
+				</tr>
+				<tr>
+					<td></td>
+					<th:block th:each="item: ${compare.items}">
+						<td><input type="button" value="Mua Ngay"
+							style="background-color: #ffc843; margin: 5px 0 5px"
+							class="btn btn-primary" th:onclick="window.location = '/san-pham/[(${item.nameSearch})]'"> <a
+							th:href="@{|/compare/remove/${item.id}|}" class="btn btn-danger">Bỏ So Sánh</a></td>
+					</th:block>					
+				</tr>
+			</tbody>
+			
+		</table>
+		</th:block>
+		<th:block th:if="${compare.count == 0}">
+			<span>Danh sách so sánh đang trống. Vui lòng chọn sản phẩm so sánh!</span>
+		</th:block>
+	</div>
+</div>
